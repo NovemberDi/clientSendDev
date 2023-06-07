@@ -45,9 +45,6 @@ export default function (onMesRTC) {
             console.log('Новый кандидат', message.value)
             handleCandidate(message.value);
           }
-          // if ( message.type == 'disconnect'){
-          //  disconnect();
-          // }
         
     };
   }
@@ -150,7 +147,7 @@ incomeOffer ='';
 incomeAnswer = '';
 firstPeer = false;
 linkStatus.value ='ожидание';
-
+ 
 
 
 }
