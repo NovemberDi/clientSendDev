@@ -1,4 +1,4 @@
-  import { ref } from "vue";
+import { ref } from "vue";
 
 export default function () {
       let percentOfSend = ref('0');
@@ -20,7 +20,7 @@ export default function () {
             let part = inputFile.slice(start,start+chunkSize);
               start+=chunkSize;
               percentOfSend.value = Math.floor((start/size>1?1:start/size)*100)+'';
-              // console.log(percentOfSend);
+              
               fileReader.readAsArrayBuffer(part);
           }
 
@@ -35,7 +35,7 @@ export default function () {
                         else {
                           dataChannel.send(JSON.stringify({type: 'end', name: inputFile.name}))
                           inputFile = null;
-                          // alert('Отправлено!')
+                         
                         };
                       } 
                     } else {
@@ -43,7 +43,7 @@ export default function () {
                   if (start<size) slicer()
                     else {
                     dataChannel.send(JSON.stringify({type: 'end', name: inputFile.name}))
-                      // inputFile = null; // Возможно ошибка
+                      
                       alert('Отправлено!')
                     };
                     }  

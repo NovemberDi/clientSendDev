@@ -6,7 +6,7 @@ export default function (onMesRTC) {
   let linkStatus = ref('ожидание');
   let inputValue = ref('');
   let dataChannel = ref();
-  let webrctStatus =ref(); ///УБРАТЬ
+  let webrctStatus =ref(); ///Не задействован
  
   
 
@@ -17,15 +17,21 @@ export default function (onMesRTC) {
   let incomeOffer ='';
   let incomeAnswer = '';
 
+  let rtcServ = []
+  
+
   
   //WebSocket-----------------
   let connect = () => {
     
-    ws = new WebSocket('ws://192.168.0.105:3000'); //  'ws://192.168.0.105:3000'    'wss://wsserver.dimkayaa.repl.co'
+    ws = new WebSocket('wss://peredaifile.ru:3000');
     
     ws.onmessage =  (event) => {
         let message = JSON.parse(event.data);
         console.log("сообщение от сервера!");
+          if (message.type == 'iceServers') {rtcServ = message.value; 
+            // console.log(rtcServ)
+          }
           if (message.type == 'id') id.value = message.value;
           if (message.type == 'link') {
               linkStatus.value = message.value;
@@ -38,13 +44,14 @@ export default function (onMesRTC) {
           };
           if (message.type == 'newAnswer') { 
            incomeAnswer=message.value;
-            // console.log(incomeAnswer) /////////////////// УБРАТЬ
+          
             peerConnection.setRemoteDescription( JSON.parse(incomeAnswer));
           }
           if ( message.type == 'candidate'){
             console.log('Новый кандидат', message.value)
             handleCandidate(message.value);
           }
+      
         
     };
   }
@@ -65,30 +72,11 @@ export default function (onMesRTC) {
   //Create connect on WebRTC
   let createPeerConnection = async () => {
     peerConnection = new RTCPeerConnection({
-              iceServers: [
-              {
-                urls: "stun:relay.metered.ca:80",
-              },
-              {
-                urls: "turn:relay.metered.ca:80",
-                username: "5253a2d860bc9520ee01c9bd",
-                credential: "1Ky2rMcecoRMIYbT",
-              },
-              {
-                urls: "turn:relay.metered.ca:443",
-                username: "5253a2d860bc9520ee01c9bd",
-                credential: "1Ky2rMcecoRMIYbT",
-              },
-              {
-                urls: "turn:relay.metered.ca:443?transport=tcp",
-                username: "5253a2d860bc9520ee01c9bd",
-                credential: "1Ky2rMcecoRMIYbT",
-              },
-              ]
+              iceServers: rtcServ
             });
         
             
-
+        peerConnection.onerror = e => {console.log(e)}
         peerConnection.onicecandidate = e => {
           const message = {
             type: 'candidate',
@@ -147,7 +135,7 @@ incomeOffer ='';
 incomeAnswer = '';
 firstPeer = false;
 linkStatus.value ='ожидание';
- 
+
 
 
 }
