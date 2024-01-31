@@ -1,19 +1,13 @@
-# client
+# Веб-приложение для p2p обмена файлами через браузер
+Проект позволяет передавать файлы из браузера в браузер напрямую, без сохранения на каком-либо сервере. 
+## Особенности реализаци
+Разработано на базе WebRTC, поэтому маршрут передачи по сети строится кратчайшим образом. Таким образом, если оба клиента находятся в одной локальной сети, то файл будет передан не выхода во внешнюю сеть.\
+Поскольку такого рода приложение по юридическим причинам может использоваться только в личных и семейных целях («пакет Яровой»), то сигнальный сервер на своём VDS я отключил, следовательно передать файлы в демо не выйдет =( 
 
-## Project setup
-```
-npm install
-```
+[Посмотреть демо тут](https://novemberdi.github.io/clientSend)
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+## Использованный стек
+frontend: Vue3(composition api)\
+backend: Node.js + WebSocket + Coturn
 
-### Compiles and minifies for production
-```
-npm run build
-```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
