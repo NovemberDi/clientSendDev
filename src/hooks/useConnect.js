@@ -24,7 +24,7 @@ export default function (onMesRTC) {
   //WebSocket-----------------
   let connect = () => {
     
-    ws = new WebSocket('wss://peredaifile.ru:3000');
+    ws = new WebSocket('wss://1439415-ct31112.tw1.ru:3000');
     
     ws.onmessage =  (event) => {
         let message = JSON.parse(event.data);
